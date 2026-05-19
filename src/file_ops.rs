@@ -146,13 +146,12 @@ pub fn run_analyzer(config: Config) -> Result<LogOutput> {
 
     let (err_thread, err_tx) = setup_error_handler(config.enable_error_reporting);
 
-    let mut workers = chunk_file(&path, num, config.buffer_size, err_tx).unwrap();
+    let mut workers = chunk_file(&path, num, config.buffer_size, err_tx)?;
 
     let final_output = if workers.len() == 1 {
         workers
             .pop()
-            .ok_or(anyhow::anyhow!("failed to get worker"))
-            .unwrap()
+            .ok_or(anyhow::anyhow!("failed to get worker"))?
             .analyze()
     } else {
         let mut result = Ok(LogOutput::default());

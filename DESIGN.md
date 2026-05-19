@@ -9,6 +9,16 @@ This document outlines the design, architecture, and performance characteristics
 `src/types.rs` defines the types used in the application.
 `benches/benchmark.rs` is the benchmark code.
 
+`ChunkWorker` : A worker having start_offset and end_offset of a file to process
+
+`LogOutput` : A struct holding the counts of each log level
+
+`Config` : A struct holding the config for the analyzer
+- Buffer size for the `BufReader` in worker
+- Number of worker threads per core to spawn
+- Path to the log file
+- Boolean flag to enable error reporting
+
 ## Architecture
 
 Given the constraints to use safe rust(eliminating mmap as an option) and to read a huge file, I am splitting the file into chunks and processing them in parellel using worker threads.
